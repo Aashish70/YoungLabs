@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YoungLab Private Ltd.</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+      }
+
+      h1 {
+        color: burlywood;
+      }
+
+      .container {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        user-select: none;
+      }
+
+      input {
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      p {
+        font-size: 18px;
+        margin-top: 15px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>YoungLab Greeting</h1>
+      <input type="text" id="nameInput" placeholder="Enter your name" />
+      <button onclick="getGreeting()">Get Greeting</button>
+      <p id="result"></p>
+    </div>
+
+    <script>
+      function getGreeting() {
+        const name = document.getElementById("nameInput").value;
+        const result = document.getElementById("result");
+
+        if (!name) {
+          result.textContent = "Please enter your name!";
+          result.style.color = "red";
+          return;
+        }
+
+        fetch(
+          `http://localhost:3000/api/greet?name=${encodeURIComponent(name)}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              result.textContent = data.error;
+              result.style.color = "red";
+            } else {
+              result.textContent = data.message;
+              result.style.color = "green";
+              nameInput.value = "";
+            }
+          })
+          .catch((error) => {
+            result.textContent = "Error fetching data.";
+            result.style.color = "red";
+          });
+      }
+    </script>
+  </body>
+</html>
