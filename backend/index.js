@@ -6,6 +6,10 @@ app.use(cors());
 
 const PORT = 3000;
 
+app.get('/', (req, res) => {
+    res.send("Everything is Okay");
+})
+
 app.get("/api/greet", (req, res) => {
     const name = req.query.name;
     if (!name) {
